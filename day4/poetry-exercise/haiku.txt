@@ -1,0 +1,3 @@
+This is the minimalist concept of a haiku.
+
+It ends here.
