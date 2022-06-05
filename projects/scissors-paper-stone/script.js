@@ -78,7 +78,7 @@ let playSPS = function (userChoice) {
 
   // if draw, drawScore += 1;
 
-  if (userChoice == computerChoice) {
+  if (playerChoice == computerChoice) {
     drawScore += 1;
   }
 
