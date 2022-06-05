@@ -83,16 +83,14 @@ The <html> element is known as the root element of a HTML page. All other elemen
       <button id="reset-button">Reset</button>
       <p>Output:</p>
       <div class="score-keeping">
-        <h3>Player score:</h3>
+        <h3 id="player-score-h3">Player score:</h3>
         <li id="player-score">0</li>
         <h3>Computer score:</h3>
         <li id="computer-score">0</li>
         <h3>Draw score:</h3>
         <li id="draw-score">0</li>
       </div>
-      <div id="output-div">
-        New game! Please choose scissors, paper, or stone.
-      </div>
+      <div id="output-div"></div>
     </div>
     <!-- Everything below this is incorporating JavaScript programming logic into the webpage. -->
     <!-- The script tag encloses JavaScript syntax for the browser to interpret programtically -->
@@ -100,6 +98,18 @@ The <html> element is known as the root element of a HTML page. All other elemen
     <script src="script.js"></script>
     <!-- Define button click functionality -->
     <script>
+      // Welcome player message in output box
+      let playerNameCheck = function () {
+        var outputName = document.querySelector("#output-div");
+        if (playerName == undefined) {
+          outputName.innerHTML = `Welcome guest! First to five wins! <br><br> Please choose scissors, paper, or stone.`;
+        } else {
+          outputName.innerHTML = `Welcome ${playerName}! First to five wins! <br><br> Please choose scissors, paper, or stone.`;
+        }
+      };
+
+      playerNameCheck();
+
       // Declare and define a variable that represents the Submit Button
       var submitButton = document.querySelector("#submit-button");
 
@@ -118,6 +128,7 @@ The <html> element is known as the root element of a HTML page. All other elemen
         // Reset input value
         input.value = "";
 
+        // scoreboard tracking
         var pScore = document.querySelector("#player-score");
         pScore.innerHTML = userScore;
         var cScore = document.querySelector("#computer-score");
@@ -126,18 +137,26 @@ The <html> element is known as the root element of a HTML page. All other elemen
         dScore.innerHTML = drawScore;
       });
 
+      // reset button
       var resetButton = document.querySelector("#reset-button");
 
+      // when clicked, resets all scores to zero, started a new game message and enable submit button once again.
       resetButton.addEventListener("click", function () {
         var playerScore = document.querySelector("#player-score");
+        userScore = 0;
         playerScore.innerHTML = 0;
         var computerScore = document.querySelector("#computer-score");
+        computerScore = 0;
         computerScore.innerHTML = 0;
         var drawScore = document.querySelector("#draw-score");
+        drawScore = 0;
         drawScore.innerHTML = 0;
 
+        let submitButton = document.querySelector("#submit-button");
+        submitButton.disabled = false;
+
         var output = document.querySelector("#output-div");
-        output.innerHTML = "New game! Please choose scissors, paper, or stone.";
+        output.innerHTML = `${playerName} started a new game! First to five wins! <br><br> Please choose scissors, paper, or stone.`;
       });
     </script>
   </body>
