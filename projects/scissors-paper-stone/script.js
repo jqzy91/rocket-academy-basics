@@ -12,6 +12,7 @@
 
 let playerName = prompt("What is your name?", "");
 
+
 // global variables: userScore, computerScore, drawScore
 
 let userScore = 0;
