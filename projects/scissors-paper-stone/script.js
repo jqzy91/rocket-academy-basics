@@ -8,22 +8,46 @@
 
 // computer generated choice should be a random integer from 1 to 3. 1 being scissor, 2 being paper, 3 being stone.
 
+// global variables: userScore, computerScore, totalRounds, drawScore
+
+let userScore = 0;
+let computerScore = 0;
+let totalRounds = 0;
+let drawScore = 0;
+
 let playSPS = function (userChoice) {
   let playerChoice = userChoice;
   let computerChoice = cpuChoice();
 
   let result = `You chose ${playerChoice} against the computer's ${computerChoice}! It's a draw!`;
 
-  // player win conditions
+  // input validation
 
+  if (
+    playerChoice == "scissors" ||
+    playerChoice == "paper" ||
+    playerChoice == "stone"
+  ) {
+    console.log(`Valid input ${playerChoice}`);
+  } else {
+    return "Please choose scissors, paper or stone.";
+  }
+
+  // player win conditions
   if (playerChoice == "scissors" && computerChoice == "paper") {
     result = `You chose ${playerChoice} against the computer's ${computerChoice}! You won!`;
+    userScore += 1;
+    totalRounds += 1;
     return result;
   } else if (playerChoice == "paper" && computerChoice == "stone") {
     result = `You chose ${playerChoice} against the computer's ${computerChoice}! You won!`;
+    userScore += 1;
+    totalRounds += 1;
     return result;
   } else if (playerChoice == "stone" && computerChoice == "scissors") {
     result = `You chose ${playerChoice} against the computer's ${computerChoice}! You won!`;
+    userScore += 1;
+    totalRounds += 1;
     return result;
   }
 
@@ -31,17 +55,28 @@ let playSPS = function (userChoice) {
 
   if (playerChoice == "scissors" && computerChoice == "stone") {
     result = `You chose ${playerChoice} against the computer's ${computerChoice}! You lost!`;
+    computerScore += 1;
+    totalRounds += 1;
     return result;
   } else if (playerChoice == "paper" && computerChoice == "scissors") {
     result = `You chose ${playerChoice} against the computer's ${computerChoice}! You lost!`;
+    computerScore += 1;
+    totalRounds += 1;
     return result;
   } else if (playerChoice == "stone" && computerChoice == "paper") {
     result = `You chose ${playerChoice} against the computer's ${computerChoice}! You lost!`;
+    computerScore += 1;
+    totalRounds += 1;
     return result;
   }
 
+  // if draw, drawScore += 1;
+  drawScore += 1;
+  totalRounds += 1;
   return result;
 };
+
+// computer choice
 
 let cpuChoice = function () {
   let randomNumber = Math.ceil(Math.random() * 3);
