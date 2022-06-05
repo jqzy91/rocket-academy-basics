@@ -12,7 +12,6 @@
 
 let playerName = prompt("What is your name?", "");
 
-
 // global variables: userScore, computerScore, drawScore
 
 let userScore = 0;
@@ -21,7 +20,7 @@ let drawScore = 0;
 
 let playSPS = function (userChoice) {
   // assign user input as player choice, and run computer random number generator, random number assigned to computer choice.
-  let playerChoice = userChoice;
+  let playerChoice = userChoice.toLowerCase();
   let computerChoice = cpuChoice();
 
   // draw conditions
