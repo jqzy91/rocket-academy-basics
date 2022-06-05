@@ -101,10 +101,14 @@ The <html> element is known as the root element of a HTML page. All other elemen
       // Welcome player message in output box
       let playerNameCheck = function () {
         var outputName = document.querySelector("#output-div");
+        var playerScoreH3 = document.querySelector("#player-score-h3");
+
         if (playerName == undefined) {
           outputName.innerHTML = `Welcome guest! First to five wins! <br><br> Please choose scissors, paper, or stone.`;
         } else {
           outputName.innerHTML = `Welcome ${playerName}! First to five wins! <br><br> Please choose scissors, paper, or stone.`;
+
+          playerScoreH3.innerHTML = `${playerName}'s score:`;
         }
       };
 
