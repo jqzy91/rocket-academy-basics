@@ -56,16 +56,33 @@
       <br />
       <button id="submit-button">Submit</button>
       <p>Output:</p>
-      <div id="output-div"></div>
+      <div id="output-div">
+        Dear player 1, to start the game, please click the submit button to roll
+        the dice.
+      </div>
     </div>
     <!-- Import program logic -->
     <script src="script.js"></script>
     <!-- Define button click functionality -->
     <script>
+      var input = document.querySelector("#input-field");
+      input.value =
+        "Start the game by clicking the submit button to roll the dice.";
+
+      let inputStartDisabler = function () {
+        if (gameMode == "rolling") {
+          input.disabled = true;
+        } else {
+          input.disabled = false;
+        }
+      };
+
+      inputStartDisabler();
+
       var button = document.querySelector("#submit-button");
       button.addEventListener("click", function () {
         // Set result to input value
-        var input = document.querySelector("#input-field");
+        input = document.querySelector("#input-field");
         var result = main(input.value);
 
         // Display result in output element
@@ -74,6 +91,8 @@
 
         // Reset input value
         input.value = "";
+
+        inputStartDisabler();
       });
     </script>
   </body>
