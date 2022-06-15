@@ -57,8 +57,8 @@
       <button id="submit-button">Submit</button>
       <p>Output:</p>
       <div id="output-div">
-        Dear player 1, to start the game, please click the submit button to roll
-        the dice.
+        Dear player One, to start the game, please click the submit button to
+        roll the dice.
       </div>
     </div>
     <!-- Import program logic -->
@@ -72,6 +72,13 @@
       let inputStartDisabler = function () {
         if (gameMode == "rolling") {
           input.disabled = true;
+          input.value = "Click the submit button to roll the dice.";
+        } else if (gameMode == "results") {
+          input.disabled = true;
+          input.value = "Click the submit button to reveal the winner.";
+        } else if (gameMode == "reset") {
+          input.disabled = true;
+          input.value = "Click the submit button to start a new game.";
         } else {
           input.disabled = false;
         }
