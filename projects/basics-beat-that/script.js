@@ -134,6 +134,9 @@ let main = function (input) {
     input.value = "Click the submit button to roll the dice.";
 
     playerNumber = 1;
+    diceRolls = [];
+    playerOneRolls = [];
+    playerTwoRolls = [];
 
     return `New game started! It is player One's turn! Click the submit button to roll the dice.`;
   }
