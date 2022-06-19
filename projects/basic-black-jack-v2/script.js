@@ -67,20 +67,15 @@ const standardDeck = [];
 
 // - generate a deck using object constructors
 let createDeck = function () {
+  // first loop for suits
   for (let i = 0; i < 4; i++) {
-    // first loop for suits
-    standardDeck.push({
-      Suit: SUITS[i],
-      Value: VALUE[i],
-      Name: `${NAME[i]} of ${SUITS[i]}`,
-    });
-
-    console.log("standardDeck");
-    console.log(standardDeck);
-
+    // second loop for adding value and names to cards
     for (let o = 0; o < 13; o++) {
-      // second loop is for attaching value
-      // add name property to object
+      standardDeck.push({
+        suit: SUITS[i],
+        value: VALUE[o],
+        name: `${NAME[o]} of ${SUITS[i]}`,
+      });
     }
   }
 };
