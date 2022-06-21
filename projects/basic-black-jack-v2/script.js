@@ -33,7 +33,7 @@
 // If there are no credits in the player's account, the "Play" button is disabled.
 // the player will be asked to enter a credit amount for waging. (max credit of 1,000)
 // when user added credits, enable the "Play" button.
-// "Play" button will change the game mode to "gameStart"
+// "Play" button will change the game mode to "gameStart" and initiate 1.
 // the player will be able to input a wager amount
 // a "Deal" button will appear next to the wager input
 // "Deal" button will initiate the 2.
@@ -104,6 +104,12 @@ let shuffleDeck = function () {
 var main = function (input) {
   // game mode = "getUserInfo"
   if (gameMode == "getUserInfo") {
+  }
+
+  if (gameMode == "gamePrepare") {
+  }
+
+  if (gameMode == "gameStart") {
   }
 
   let result = "hello world";
