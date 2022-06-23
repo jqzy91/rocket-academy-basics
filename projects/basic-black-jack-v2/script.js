@@ -40,7 +40,10 @@
 
 // 1. Game initialization
 // - set various game modes.
-let gameMode = "getUserInfo";
+let gameMode = "";
+
+// - create object to store account username and passwords
+const ACCOUNTS = [];
 
 // - give value to face cards.
 let ace = 11;
@@ -101,9 +104,30 @@ let shuffleDeck = function () {
 
 // 2.
 
-var main = function (input) {
-  // game mode = "getUserInfo"
-  if (gameMode == "getUserInfo") {
+var main = function (input1, input2) {
+  // game mode = "login"
+  if (gameMode == "login") {
+    userName = input1;
+    password = input2;
+
+    // check if username and password matches
+
+    // if account list items matches username and password, log in, else return
+    // "incorrect username or password"
+    if (userName) return alert("login succeed");
+  }
+
+  if (gameMode == "signUp") {
+    userName = input1;
+    password = input2;
+
+    // check if username is in the database
+
+    // if username is not registered, add username to the list
+
+    // otherwise, reject username. "choose another username"
+
+    return alert("sign up succeed");
   }
 
   if (gameMode == "gamePrepare") {
@@ -112,6 +136,6 @@ var main = function (input) {
   if (gameMode == "gameStart") {
   }
 
-  let result = "hello world";
+  let result = userName + password;
   return result;
 };

@@ -24,24 +24,32 @@
       }
 
       body {
-        height: 100vh;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
 
         font-family: "Open Sans", sans-serif;
         color: white; /* sets the font color */
 
         background-color: rgb(40, 40, 40);
         background-size: cover; /* Resize the background image to cover the entire container */
+        background-repeat: no-repeat;
       }
 
-      #output-div img {
-        display: block;
-        max-width: 100%;
-        max-height: 200px;
-      }
       .header {
         text-align: center;
         font-size: 1.1rem;
         margin-bottom: 3rem;
+      }
+
+      p {
+        margin-bottom: 10px;
+        margin-top: 0px;
+      }
+
+      ::placeholder {
+        font-size: 1rem;
+        padding-left: 5px;
       }
 
       #container {
@@ -50,9 +58,10 @@
         align-items: center;
 
         background-image: url("./images/casino-bg.jpg");
+        background-size: cover;
 
-        max-width: 800px;
-        height: 450px;
+        min-width: 70%;
+        max-width: 700px;
 
         border-color: rgb(161, 161, 161);
         border-width: 5px;
@@ -60,17 +69,20 @@
         border-radius: 20px;
 
         margin: 40px auto;
-        padding: 38px 31px;
+        padding: 40px;
       }
 
       input {
         display: block;
         align-items: center;
-        font-size: 21px;
-        line-height: 33px;
-        margin: auto auto auto auto;
 
-        width: 50%;
+        font-size: 18px;
+        line-height: 33px;
+
+        margin: auto auto auto auto;
+        padding-left: 5px;
+
+        width: 100%;
       }
 
       button {
@@ -85,27 +97,18 @@
 
         padding: 5px 15px 5px 15px;
         margin: 0px 5px 0px 5px;
+
+        transition: all 0.2s ease-in-out;
       }
 
       button:hover {
-        font-size: 20px;
-      }
-
-      #output-div {
-        display: block;
-        background-color: lightgrey;
-        padding: 20px;
-        width: 50%;
-      }
-
-      #output-p {
-        text-align: center;
+        box-shadow: 0 0px 5px rgba(232, 166, 32, 0.8);
       }
 
       .logo-img {
-        height: 49px;
+        height: 40px;
         position: relative;
-        top: 18px;
+        top: 14px;
       }
 
       /* increase header font size on wider screens */
@@ -134,18 +137,23 @@
 
     <div id="container">
       <p>Login:</p>
-      <input id="input-field" />
-      <br />
-      <input id="input-field" />
-      <br />
-      <div id="button-container">
+      <container>
+        <input id="input-field-top" placeholder="Username"></input>
+        <br />
+        <input type="password" id="input-field-bottom" placeholder="Password" />
+        <br />
+      </container>
+
+      <container id="button-container">
+        <button id="login-button">Log in</button>
         <button id="sign-up-button">Sign up</button>
-        <button id="log-in-button">Log in</button>
         <button id="start-button">Start</button>
         <button id="rules-button">Rules</button>
         <button id="deal-button">Deal</button>
         <button id="add-credits-button">Add Credits</button>
-      </div>
+      </container>
+
+      <!-- <div id="output-div"></div> -->
 
       <!-- <p>Output:</p> -->
       <!-- <div id="output-div">
@@ -159,28 +167,36 @@
     <script>
       // modes
       // gameMode = "getUserInfo";
-      // buttons involved -> sign up, login
+      // buttons involved -> sign up, login. disable the rest
 
+      document.getElementById("start-button").style.display = "none";
+      document.getElementById("rules-button").style.display = "none";
+      document.getElementById("deal-button").style.display = "none";
+      document.getElementById("add-credits-button").style.display = "none";
+
+       // check username and password
+      let loginButton = document.querySelector("#login-button");
+      signUpButton.addEventListener("click", function () {
+        gameMode = "login"
+        getUserInfo();
+      });
+
+      // store username and password
       let signUpButton = document.querySelector("#sign-up-button");
       signUpButton.addEventListener("click", function () {
-        // store username and password
+        gameMode = "signUp"
+        getUserInfo();
       });
 
-      // buttons.style.display = "none";
+      let getUserInfo = function () {
+        let userNameInput = document.querySelector("#input-field-top");
+        let passwordInput = document.querySelector("#input-field-bottom");
 
-      var button = document.querySelector("#sign-up-button");
-      button.addEventListener("click", function () {
-        // Set result to input value
-        var input = document.querySelector("#input-field");
-        var result = main(input.value);
+        let result = main(userNameInput.value, passwordInput.value);
 
-        // Display result in output element
-        var output = document.querySelector("#output-div");
-        output.innerHTML = result;
-
-        // Reset input value
-        input.value = "";
-      });
+        userNameInput.value = "";
+        passwordInput.value = "";
+        }
     </script>
   </body>
 </html>
