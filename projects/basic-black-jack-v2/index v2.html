@@ -32,8 +32,7 @@
         color: white; /* sets the font color */
 
         background-color: rgb(40, 40, 40);
-        background-size: cover; /* Resize the background image to cover the entire container */
-        background-repeat: no-repeat;
+        
       }
 
       .header {
@@ -52,16 +51,19 @@
         padding-left: 5px;
       }
 
-      #container {
+      .div-containers {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        text-align: center;
 
         background-image: url("./images/casino-bg.jpg");
         background-size: cover;
+        background-repeat: no-repeat;
 
-        min-width: 70%;
-        max-width: 700px;
+        min-width: 50vw;
+        min-height: 300px;
 
         border-color: rgb(161, 161, 161);
         border-width: 5px;
@@ -74,7 +76,6 @@
 
       input {
         display: block;
-        align-items: center;
 
         font-size: 18px;
         line-height: 33px;
@@ -98,11 +99,17 @@
         padding: 5px 15px 5px 15px;
         margin: 0px 5px 0px 5px;
 
+        cursor: pointer;
+
         transition: all 0.2s ease-in-out;
       }
 
       button:hover {
         box-shadow: 0 0px 5px rgba(232, 166, 32, 0.8);
+      }
+
+      #admin-message {
+        font-size: 1.2rem;
       }
 
       .logo-img {
@@ -135,31 +142,27 @@
 
     <h1 class="header">Blackjack Casino</h1>
 
-    <div id="container">
-      <p>Login:</p>
-      <container>
+   <container class="div-containers">
+       <div id="admin-message"></div>
+
+      <div class="input-containers" id="login-signup-input-container">
+        <p>Login:</p>
         <input id="input-field-top" placeholder="Username"></input>
         <br />
         <input type="password" id="input-field-bottom" placeholder="Password" />
         <br />
-      </container>
+      </div>
 
-      <container id="button-container">
+      <div id="button-div">
         <button id="login-button">Log in</button>
         <button id="sign-up-button">Sign up</button>
         <button id="start-button">Start</button>
         <button id="rules-button">Rules</button>
         <button id="deal-button">Deal</button>
         <button id="add-credits-button">Add Credits</button>
-      </container>
+      </div>
+   </container>
 
-      <!-- <div id="output-div"></div> -->
-
-      <!-- <p>Output:</p> -->
-      <!-- <div id="output-div">
-        <p id="output-p">Welcome, what is your name?</p>
-      </div> -->
-    </div>
 
     <!-- Import program logic -->
     <script src="script.js"></script>
@@ -174,9 +177,13 @@
       document.getElementById("deal-button").style.display = "none";
       document.getElementById("add-credits-button").style.display = "none";
 
+      // containers involved -> "login-signup-input-container". disable the rest
+
+      document.getElementById("admin-message").style.display = "none";
+
        // check username and password
       let loginButton = document.querySelector("#login-button");
-      signUpButton.addEventListener("click", function () {
+      loginButton.addEventListener("click", function () {
         gameMode = "login"
         getUserInfo();
       });

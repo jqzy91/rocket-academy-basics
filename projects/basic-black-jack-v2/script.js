@@ -43,7 +43,12 @@
 let gameMode = "";
 
 // - create object to store account username and passwords
-const ACCOUNTS = [];
+const ACCOUNTS = [
+  {
+    username: "userName",
+    password: "passWord",
+  },
+];
 
 // - give value to face cards.
 let ace = 11;
@@ -105,29 +110,69 @@ let shuffleDeck = function () {
 // 2.
 
 var main = function (input1, input2) {
+  console.log("main function is running");
+  console.log("gamemode is " + gameMode);
   // game mode = "login"
   if (gameMode == "login") {
-    userName = input1;
-    password = input2;
+    let userName = input1;
+    let passWord = input2;
 
     // check if username and password matches
-
-    // if account list items matches username and password, log in, else return
-    // "incorrect username or password"
-    if (userName) return alert("login succeed");
+    for (let i = 0; i <= ACCOUNTS.length; i++) {
+      if (
+        userName == ACCOUNTS[i].username &&
+        passWord == ACCOUNTS[i].password
+      ) {
+        gameMode == "gamePrepare";
+        return "login succeed";
+      } else {
+        return "Incorrect username or password.";
+      }
+      // if account list items matches username and password, log in, else return
+      // "incorrect username or password"
+    }
   }
 
   if (gameMode == "signUp") {
-    userName = input1;
-    password = input2;
+    console.log("signUp mode is running");
+
+    let userName = input1;
+    let passWord = input2;
 
     // check if username is in the database
+    for (let i = 0; i <= ACCOUNTS.length; i++) {
+      if (userName == ACCOUNTS[i].username) {
+        // if username is in the database, reject account creation
+        return console.log(
+          "This username is already registered, choose another."
+        );
+      } else if (userName.length < 4) {
+        return console.log("Please input a username longer than 4 characters.");
+      } else {
+        ACCOUNTS.push({
+          username: userName,
+          password: passWord,
+        });
+
+        document.getElementById("login-signup-input-container").style.display =
+          "none";
+        document.getElementById("login-button").style.display = "none";
+        document.getElementById("sign-up-button").style.display = "none";
+
+        document.getElementById("admin-message").style.display = "block";
+        let p = document.getElementById("admin-message");
+        p.innerText = "Signed in successfully!";
+
+        gameMode = "gamePrepare";
+        console.log("went through");
+
+        return console.log("Account successfully registered!");
+      }
+    }
 
     // if username is not registered, add username to the list
 
     // otherwise, reject username. "choose another username"
-
-    return alert("sign up succeed");
   }
 
   if (gameMode == "gamePrepare") {
@@ -135,7 +180,4 @@ var main = function (input1, input2) {
 
   if (gameMode == "gameStart") {
   }
-
-  let result = userName + password;
-  return result;
 };
