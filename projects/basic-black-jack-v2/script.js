@@ -43,12 +43,14 @@
 let gameMode = "";
 
 // - create object to store account username and passwords
-const ACCOUNTS = [
+let ACCOUNTS = [
   {
     username: "userName",
     password: "passWord",
   },
 ];
+
+// - create database storage [WIP]
 
 // - give value to face cards.
 let ace = 11;
@@ -123,10 +125,50 @@ var main = function (input1, input2) {
         userName == ACCOUNTS[i].username &&
         passWord == ACCOUNTS[i].password
       ) {
+        document.getElementById("login-signup-input-container").style.display =
+          "none";
+        document.getElementById("login-button").style.display = "none";
+        document.getElementById("sign-up-button").style.display = "none";
+
+        document.getElementById("admin-message").style.display = "block";
+        let p = document.getElementById("admin-message");
+        p.innerText = `Signed in successfully!`;
+
+        p.style = "revert";
+        p.style.fontSize = "1.2rem";
+
         gameMode == "gamePrepare";
-        return "login succeed";
+
+        document.getElementById("start-button").style.display = "inline-block";
+        document.getElementById("top-up-button").style.display = "inline-block";
+        document.getElementById("rules-button").style.display = "inline-block";
+
+        setTimeout(function () {
+          let p = document.getElementById("admin-message");
+          p.style.fontSize = "0.8rem";
+          p.innerText = `Click the start button to play.
+          (There must be credits in your balance to begin playing.)
+
+          Click the Top up button to add credits to your bankroll.
+
+          Click the Rules button to view the rules of Blackjack.`;
+        }, 2000);
+
+        return console.log("Signed in successfully.");
       } else {
-        return "Incorrect username or password.";
+        document.getElementById("admin-message").style.display = "block";
+        let p = document.getElementById("admin-message");
+        p.innerText = "Incorrect username or password.";
+
+        // styling
+        p.style.color = "red";
+        p.style.fontSize = "small";
+        p.style.backgroundColor = "whitesmoke";
+        p.style.borderRadius = "5px";
+        p.style.padding = "5px 10px 5px 10px";
+        p.style.margin = "10px";
+
+        return console.log("Incorrect username or password.");
       }
       // if account list items matches username and password, log in, else return
       // "incorrect username or password"
@@ -141,14 +183,60 @@ var main = function (input1, input2) {
 
     // check if username is in the database
     for (let i = 0; i <= ACCOUNTS.length; i++) {
+      specialCharCheck = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
       if (userName == ACCOUNTS[i].username) {
         // if username is in the database, reject account creation
         return console.log(
           "This username is already registered, choose another."
         );
       } else if (userName.length < 4) {
+        document.getElementById("admin-message").style.display = "block";
+        let p = document.getElementById("admin-message");
+        p.innerText = "Please input a username longer than 4 characters.";
+
+        // styling
+        p.style.color = "red";
+        p.style.fontSize = "small";
+        p.style.backgroundColor = "whitesmoke";
+        p.style.borderRadius = "5px";
+        p.style.padding = "5px 10px 5px 10px";
+        p.style.margin = "10px";
+
         return console.log("Please input a username longer than 4 characters.");
+      } else if (specialCharCheck.test(userName)) {
+        document.getElementById("admin-message").style.display = "block";
+        let p = document.getElementById("admin-message");
+        p.innerText =
+          "Please input a username without special characters or spaces.";
+
+        // styling
+        p.style.color = "red";
+        p.style.fontSize = "small";
+        p.style.backgroundColor = "whitesmoke";
+        p.style.borderRadius = "5px";
+        p.style.padding = "5px 10px 5px 10px";
+        p.style.margin = "10px";
+
+        return console.log(
+          "Please input a username without special characters or spaces."
+        );
       } else {
+        if (passWord.length < 4) {
+          document.getElementById("admin-message").style.display = "block";
+          let p = document.getElementById("admin-message");
+          p.innerText = "Your password must be longer than 4 characters.";
+
+          // styling
+          p.style.color = "red";
+          p.style.fontSize = "small";
+          p.style.backgroundColor = "whitesmoke";
+          p.style.borderRadius = "5px";
+          p.style.padding = "5px 10px 5px 10px";
+          p.style.margin = "10px";
+
+          return console.log("Your password must be longer than 4 characters.");
+        }
+
         ACCOUNTS.push({
           username: userName,
           password: passWord,
@@ -161,10 +249,28 @@ var main = function (input1, input2) {
 
         document.getElementById("admin-message").style.display = "block";
         let p = document.getElementById("admin-message");
-        p.innerText = "Signed in successfully!";
+        p.innerText = `Account registered successfully!
+        You are now signed in.`;
+
+        p.style = "revert";
+        p.style.fontSize = "1.2rem";
 
         gameMode = "gamePrepare";
-        console.log("went through");
+
+        document.getElementById("start-button").style.display = "inline-block";
+        document.getElementById("top-up-button").style.display = "inline-block";
+        document.getElementById("rules-button").style.display = "inline-block";
+
+        setTimeout(function () {
+          let p = document.getElementById("admin-message");
+          p.style.fontSize = "0.8rem";
+          p.innerText = `Click the start button to play.
+          (There must be credits in your balance to begin playing.)
+
+          Click the Top up button to add credits to your bankroll.
+
+          Click the Rules button to view the rules of Blackjack.`;
+        }, 0);
 
         return console.log("Account successfully registered!");
       }

@@ -1,211 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Page setup configurations -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Primary Meta Tags -->
-    <title>Blackjack - Basics - Rocket Academy</title>
-    <meta name="title" content="YOURNAME's BlackJack Game!" />
-    <meta name="description" content="A fun card game I made myself! 😄💪🌈" />
+<head>
+  <!-- Page setup configurations -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- fonts -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Open+Sans"
-    />
+  <!-- Primary Meta Tags -->
+  <title>Blackjack - Basics - Rocket Academy</title>
+  <meta name="title" content="YOURNAME's BlackJack Game!" />
+  <meta name="description" content="A fun card game I made myself! 😄💪🌈" />
 
-    <!-- CSS -->
-    <style>
-      * {
-        box-sizing: border-box;
-      }
+  <!-- fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" />
 
-      body {
-        display:flex;
-        flex-direction: column;
-        align-items: center;
+  <!-- CSS -->
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        font-family: "Open Sans", sans-serif;
-        color: white; /* sets the font color */
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-        background-color: rgb(40, 40, 40);
-        
-      }
+      font-family: "Open Sans", sans-serif;
+      color: white;
+      /* sets the font color */
 
+      background-color: rgb(40, 40, 40);
+
+    }
+
+    .header {
+      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+    }
+
+    p {
+      margin-bottom: 10px;
+      margin-top: 0px;
+    }
+
+    ::placeholder {
+      font-size: 1rem;
+      padding-left: 5px;
+    }
+
+    #div-containers {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      text-align: center;
+
+      background-image: url("./images/casino-bg.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      min-width: 40vw;
+      max-width: 60vw;
+      /* min-height: 300px; */
+      min-height: 300px;
+      max-height: 600px;
+      overflow: auto;
+
+      border-color: rgb(161, 161, 161);
+      border-width: 5px;
+      border-style: solid;
+      border-radius: 20px;
+
+      margin: 40px;
+      padding: 40px;
+    }
+
+    /* width */
+    ::-webkit-scrollbar {
+      width: 5px;
+
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 20px;
+      margin-right: 15px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 50px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+      border-radius: 50px;
+    }
+
+    ::-webkit-scrollbar-button {
+      height: 40px;
+    }
+
+
+    input {
+      display: block;
+
+      font-size: 18px;
+      line-height: 33px;
+
+      margin: auto auto auto auto;
+      padding-left: 5px;
+
+      width: 100%;
+    }
+
+    button {
+      font-size: 16px;
+      color: black;
+
+      background-color: gold;
+      box-shadow: 1px 1px 3px rgb(70, 51, 4);
+
+      border-radius: 20px;
+      border-width: 1px;
+
+      padding: 5px 15px 5px 15px;
+      margin: 0px 5px 0px 5px;
+
+      cursor: pointer;
+
+      transition: all 0.2s ease-in-out;
+    }
+
+    button:hover {
+      box-shadow: 0 0px 5px rgba(232, 166, 32, 0.8);
+    }
+
+    #admin-message {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    .logo-img {
+      height: 40px;
+      position: relative;
+      top: 14px;
+    }
+
+    /* increase header font size on wider screens */
+    @media screen and (min-width: 600px) {
       .header {
-        text-align: center;
-        font-size: 1.1rem;
-        margin-bottom: 3rem;
+        font-size: 2rem;
       }
+    }
+  </style>
+</head>
 
-      p {
-        margin-bottom: 10px;
-        margin-top: 0px;
-      }
+<body>
+  <h1 class="header">
+    <img class="logo-img" src="https://ra-web-files.s3.ap-southeast-1.amazonaws.com/all/brand/logo.png" />
+    Rocket Academy
+    <img class="logo-img" src="https://ra-web-files.s3.ap-southeast-1.amazonaws.com/all/brand/logo.png" />
+  </h1>
 
-      ::placeholder {
-        font-size: 1rem;
-        padding-left: 5px;
-      }
+  <h1 class="header">Blackjack Casino</h1>
 
-      .div-containers {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+  <container id="div-containers">
+    <div id="admin-message"></div>
 
-        background-image: url("./images/casino-bg.jpg");
-        background-size: cover;
-        background-repeat: no-repeat;
+    <div class="input-containers" id="login-signup-input-container">
+      <p>Login:</p>
+      <input id="input-field-top" placeholder="Username"></input>
+      <br />
+      <input type="password" id="input-field-bottom" placeholder="Password" />
+      <br />
+    </div>
 
-        min-width: 50vw;
-        min-height: 300px;
-
-        border-color: rgb(161, 161, 161);
-        border-width: 5px;
-        border-style: solid;
-        border-radius: 20px;
-
-        margin: 40px auto;
-        padding: 40px;
-      }
-
-      input {
-        display: block;
-
-        font-size: 18px;
-        line-height: 33px;
-
-        margin: auto auto auto auto;
-        padding-left: 5px;
-
-        width: 100%;
-      }
-
-      button {
-        font-size: 16px;
-        color: black;
-
-        background-color: gold;
-        box-shadow: 1px 1px 3px rgb(70, 51, 4);
-
-        border-radius: 20px;
-        border-width: 1px;
-
-        padding: 5px 15px 5px 15px;
-        margin: 0px 5px 0px 5px;
-
-        cursor: pointer;
-
-        transition: all 0.2s ease-in-out;
-      }
-
-      button:hover {
-        box-shadow: 0 0px 5px rgba(232, 166, 32, 0.8);
-      }
-
-      #admin-message {
-        font-size: 1.2rem;
-      }
-
-      .logo-img {
-        height: 40px;
-        position: relative;
-        top: 14px;
-      }
-
-      /* increase header font size on wider screens */
-      @media screen and (min-width: 600px) {
-        .header {
-          font-size: 2rem;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <h1 class="header">
-      <img
-        class="logo-img"
-        src="https://ra-web-files.s3.ap-southeast-1.amazonaws.com/all/brand/logo.png"
-      />
-      Rocket Academy
-      <img
-        class="logo-img"
-        src="https://ra-web-files.s3.ap-southeast-1.amazonaws.com/all/brand/logo.png"
-      />
-    </h1>
-
-    <h1 class="header">Blackjack Casino</h1>
-
-   <container class="div-containers">
-       <div id="admin-message"></div>
-
-      <div class="input-containers" id="login-signup-input-container">
-        <p>Login:</p>
-        <input id="input-field-top" placeholder="Username"></input>
-        <br />
-        <input type="password" id="input-field-bottom" placeholder="Password" />
-        <br />
-      </div>
-
-      <div id="button-div">
-        <button id="login-button">Log in</button>
-        <button id="sign-up-button">Sign up</button>
-        <button id="start-button">Start</button>
-        <button id="rules-button">Rules</button>
-        <button id="deal-button">Deal</button>
-        <button id="add-credits-button">Add Credits</button>
-      </div>
-   </container>
+    <div id="button-div">
+      <button id="login-button">Log in</button>
+      <button id="sign-up-button">Sign up</button>
+      <button id="start-button">Start</button>
+      <button id="top-up-button">Top up</button>
+      <button id="rules-button">Rules</button>
+      <button id="deal-button">Deal</button>
+    </div>
+  </container>
 
 
-    <!-- Import program logic -->
-    <script src="script.js"></script>
-    <!-- Define button click functionality -->
-    <script>
-      // modes
-      // gameMode = "getUserInfo";
-      // buttons involved -> sign up, login. disable the rest
+  <!-- Import program logic -->
+  <script src="script.js"></script>
+  <!-- Define button click functionality -->
+  <script>
+    // modes
+    // gameMode = "getUserInfo";
+    // buttons involved -> sign up, login. disable the rest
 
-      document.getElementById("start-button").style.display = "none";
-      document.getElementById("rules-button").style.display = "none";
-      document.getElementById("deal-button").style.display = "none";
-      document.getElementById("add-credits-button").style.display = "none";
+    document.getElementById("start-button").style.display = "none";
+    document.getElementById("rules-button").style.display = "none";
+    document.getElementById("deal-button").style.display = "none";
+    document.getElementById("top-up-button").style.display = "none";
 
-      // containers involved -> "login-signup-input-container". disable the rest
+    // containers involved -> "login-signup-input-container". disable the rest
 
-      document.getElementById("admin-message").style.display = "none";
+    document.getElementById("admin-message").style.display = "none";
 
-       // check username and password
-      let loginButton = document.querySelector("#login-button");
-      loginButton.addEventListener("click", function () {
-        gameMode = "login"
-        getUserInfo();
-      });
+    // check username and password
+    let loginButton = document.querySelector("#login-button");
+    loginButton.addEventListener("click", function () {
+      gameMode = "login"
+      getUserInfo();
+    });
 
-      // store username and password
-      let signUpButton = document.querySelector("#sign-up-button");
-      signUpButton.addEventListener("click", function () {
-        gameMode = "signUp"
-        getUserInfo();
-      });
+    // store username and password
+    let signUpButton = document.querySelector("#sign-up-button");
+    signUpButton.addEventListener("click", function () {
+      gameMode = "signUp"
+      getUserInfo();
+    });
 
-      let getUserInfo = function () {
-        let userNameInput = document.querySelector("#input-field-top");
-        let passwordInput = document.querySelector("#input-field-bottom");
+    let getUserInfo = function () {
+      let userNameInput = document.querySelector("#input-field-top");
+      let passwordInput = document.querySelector("#input-field-bottom");
 
-        let result = main(userNameInput.value, passwordInput.value);
+      let result = main(userNameInput.value, passwordInput.value);
 
-        userNameInput.value = "";
-        passwordInput.value = "";
-        }
-    </script>
-  </body>
+      userNameInput.value = "";
+      passwordInput.value = "";
+    }
+
+    // using enter key to trigger login button
+    let loginEnter = document.getElementById("input-field-bottom");
+    loginEnter.addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("login-button").click();
+        console.log("enter button pressed");
+      };
+    });
+
+    // rule button clicked
+    let rulesButton = document.querySelector("#rules-button");
+    rulesButton.addEventListener("click", function () {
+      let container = document.getElementById("div-containers");
+      container.style.justifyContent = "flex-start"
+
+      let p = document.getElementById("admin-message");
+      p.style.fontSize = "0.8rem";
+      p.innerText = `RULES
+          
+          Each participant attempts to beat the dealer by getting a count as close to 21 as possible, without going over 21.
+
+          It is up to each individual player if an ace is worth 1 or 11. Face cards are 10 and any other card is its pip value.
+
+          Before the deal begins, each player places a bet.
+
+          When the player have placed a bet, the dealer gives one card face up to the player, and then one card face up to themselves. Another card is then dealt face up to the player, but the dealer takes the second card face down.
+          
+          If a player's first two cards are an ace and a "ten-card" (a picture card or 10), giving a count of 21 in two cards, this is a natural or "blackjack." If any player has a natural and the dealer does not, the dealer immediately pays that player one and a half times the amount of their bet.
+          
+          If the dealer's face-up card is a ten-card or an ace, they look at their face-down card to see if the two cards make a natural. If the face-up card is not a ten-card or an ace, they do not look at the face-down card until it is the dealer's turn to play.
+          
+          The player goes first and must decide whether to "stand" (not ask for another card) or "hit" (ask for another card in an attempt to get closer to a count of 21, or even hit 21 exactly). Thus, a player may stand on the two cards originally dealt to them, or they may ask the dealer for additional cards, one at a time, until deciding to stand on the total (if it is 21 or under), or goes "bust" (if it is over 21). In the latter case, the player loses and the dealer collects the bet wagered.
+          
+          The combination of an ace with a card other than a ten-card is known as a "soft hand," because the player can count the ace as a 1 or 11, and either draw cards or not. For example with a "soft 17" (an ace and a 6), the total is 7 or 17. While a count of 17 is a good hand, the player may wish to draw for a higher total. If the draw creates a bust hand by counting the ace as an 11, the player simply counts the ace as a 1 and continues playing by standing or "hitting" (asking the dealer for additional cards, one at a time).
+          
+          At the end of the player's turn, the dealers face-down card is turned up. If the total is 17 or more, it must stand. If the total is 16 or under, they must take a card. The dealer must continue to take cards until the total is 17 or more, at which point the dealer must stand. If the dealer has an ace, and counting it as 11 would bring the total to 17 or more (but not over 21), the dealer must count the ace as 11 and stand. The dealer's decisions, then, are automatic on all plays, whereas the player always has the option of taking one or more cards.
+          
+          SPLITTING
+          
+          If a player's first two cards are of the same denomination, such as two jacks or two sixes, they may choose to treat them as two separate hands when their turn comes around. The amount of the original bet then goes on one of the cards, and an equal amount must be placed as a bet on the other card. The player first plays the hand to their left by standing or hitting one or more times; only then is the hand to the right played. The two hands are thus treated separately, and the dealer settles with each on its own merits. With a pair of aces, the player is given one card for each ace and may not draw again. Also, if a ten-card is dealt to one of these aces, the payoff is equal to the bet (not one and one-half to one, as with a blackjack at any other time).
+          
+          DOUBLE DOWN
+
+          Another option open to the player is doubling their bet when the original two cards dealt total 9, 10, or 11. When the player's turn comes, they place a bet equal to the original bet, and the dealer gives the player just one card, which is placed face down and is not turned up until the bets are settled at the end of the hand. With two fives, the player may split a pair, double down, or just play the hand in the regular way. Note that the dealer does not have the option of splitting or doubling down.
+          
+          SETTLEMENT
+          
+          A bet once paid and collected is never returned. Thus, one key advantage to the dealer is that the player goes first. If the player goes bust, they have already lost their wager, even if the dealer goes bust as well. If the dealer goes over 21, the dealer pays each player who has stood the amount of that player's bet. If the dealer stands at 21 or less, the dealer pays the bet of any player having a higher total (not exceeding 21) and collects the bet of any player having a lower total. If there is a stand-off (a player having the same total as the dealer), no chips are paid out or collected.`;
+    });
+  </script>
+</body>
+
 </html>
-
-<!-- buttons.style.background = "lightgrey"; // buttons.style.color = "#666"; -->
