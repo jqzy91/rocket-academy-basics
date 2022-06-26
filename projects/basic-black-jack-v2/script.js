@@ -50,6 +50,9 @@ let ACCOUNTS = [
   },
 ];
 
+// store player balance
+let playerBalance = 0;
+
 // - create database storage [WIP]
 
 // - give value to face cards.
@@ -114,6 +117,7 @@ let shuffleDeck = function () {
 var main = function (input1, input2) {
   console.log("main function is running");
   console.log("gamemode is " + gameMode);
+
   // game mode = "login"
   if (gameMode == "login") {
     let userName = input1;
@@ -152,7 +156,15 @@ var main = function (input1, input2) {
           Click the Top up button to add credits to your bankroll.
 
           Click the Rules button to view the rules of Blackjack.`;
-        }, 2000);
+        }, 0);
+
+        // show balance and username
+        document.getElementById("account-details-div").style.display = "block";
+        let userBalance = document.getElementById("credit-balance-div");
+        userBalance.innerText = `Balance: ${playerBalance}`;
+
+        let accountName = document.getElementById("account-name-div");
+        accountName.innerText = `User: ${input1}`;
 
         return console.log("Signed in successfully.");
       } else {
@@ -175,6 +187,7 @@ var main = function (input1, input2) {
     }
   }
 
+  // gamemode = "signup"
   if (gameMode == "signUp") {
     console.log("signUp mode is running");
 

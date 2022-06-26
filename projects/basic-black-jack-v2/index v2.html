@@ -51,6 +51,8 @@
     }
 
     #div-containers {
+      position: relative;
+
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -65,7 +67,7 @@
       max-width: 60vw;
       /* min-height: 300px; */
       min-height: 300px;
-      max-height: 600px;
+      max-height: 450px;
       overflow: auto;
 
       border-color: rgb(161, 161, 161);
@@ -106,6 +108,29 @@
       height: 40px;
     }
 
+    #credit-balance-div {
+      position: absolute;
+
+      bottom: 0%;
+      left: 0%;
+
+      margin: 10px;
+
+      font-size: 0.7rem;
+
+      overflow: auto;
+    }
+
+    #account-name-div {
+      position: absolute;
+
+      bottom: 0px;
+      right: 0px;
+
+      margin: 10px;
+
+      font-size: 0.7rem;
+    }
 
     input {
       display: block;
@@ -130,7 +155,7 @@
       border-width: 1px;
 
       padding: 5px 15px 5px 15px;
-      margin: 0px 5px 0px 5px;
+      margin: 5px;
 
       cursor: pointer;
 
@@ -171,6 +196,11 @@
   <h1 class="header">Blackjack Casino</h1>
 
   <container id="div-containers">
+    <div id="account-details-div">
+      <div id="credit-balance-div">Balance: </div>
+      <div id="account-name-div">User: </div>
+    </div>
+
     <div id="admin-message"></div>
 
     <div class="input-containers" id="login-signup-input-container">
@@ -181,12 +211,19 @@
       <br />
     </div>
 
+    <div class="input-containers" id="top-up-input-container">
+      <p>How much to deposit?</p>
+      <input id="input-field-top-up" placeholder="100"></input>
+      <br />
+    </div>
+
     <div id="button-div">
       <button id="login-button">Log in</button>
       <button id="sign-up-button">Sign up</button>
       <button id="start-button">Start</button>
       <button id="top-up-button">Top up</button>
       <button id="rules-button">Rules</button>
+      <button id="back-button">Back</button>
       <button id="deal-button">Deal</button>
     </div>
   </container>
@@ -203,11 +240,14 @@
     document.getElementById("start-button").style.display = "none";
     document.getElementById("rules-button").style.display = "none";
     document.getElementById("deal-button").style.display = "none";
+    document.getElementById("back-button").style.display = "none";
     document.getElementById("top-up-button").style.display = "none";
 
     // containers involved -> "login-signup-input-container". disable the rest
 
     document.getElementById("admin-message").style.display = "none";
+    document.getElementById("account-details-div").style.display = "none";
+    document.getElementById("top-up-input-container").style.display = "none";
 
     // check username and password
     let loginButton = document.querySelector("#login-button");
@@ -246,8 +286,16 @@
     // rule button clicked
     let rulesButton = document.querySelector("#rules-button");
     rulesButton.addEventListener("click", function () {
+
+      gameMode = "rules";
+
+      document.getElementById("back-button").style.display = "inline-block";
+      document.getElementById("rules-button").style.display = "none";
+      document.getElementById("account-details-div").style.display = "none";
+
+
       let container = document.getElementById("div-containers");
-      container.style.justifyContent = "flex-start"
+      container.style.justifyContent = "flex-start";
 
       let p = document.getElementById("admin-message");
       p.style.fontSize = "0.8rem";
@@ -283,6 +331,93 @@
           
           A bet once paid and collected is never returned. Thus, one key advantage to the dealer is that the player goes first. If the player goes bust, they have already lost their wager, even if the dealer goes bust as well. If the dealer goes over 21, the dealer pays each player who has stood the amount of that player's bet. If the dealer stands at 21 or less, the dealer pays the bet of any player having a higher total (not exceeding 21) and collects the bet of any player having a lower total. If there is a stand-off (a player having the same total as the dealer), no chips are paid out or collected.`;
     });
+
+    // top up button clicked
+    let topupButton = document.querySelector("#top-up-button");
+    topupButton.addEventListener("click", function () {
+
+      document.getElementById("back-button").style.display = "inline-block";
+      document.getElementById("top-up-input-container").style.display = "block";
+      document.getElementById("account-details-div").style.display = "block";
+
+      document.getElementById("rules-button").style.display = "none";
+      document.getElementById("admin-message").style.display = "none";
+
+      let container = document.getElementById("div-containers");
+      container.style.justifyContent = "center";
+
+      if (gameMode == "topping up") {
+
+
+        let playerCreditTopUp = document.querySelector("#input-field-top-up");
+
+        document.getElementById("top-up-input-container").style.display = "block";
+        document.getElementById("admin-message").style.display = "block";
+
+        let p = document.getElementById("admin-message");
+
+        if (playerCreditTopUp.value < 0 || playerCreditTopUp.value == "" || isNaN(playerCreditTopUp.value)) {
+          p.style.fontSize = "1rem";
+          p.innerText = `Invalid input.`;
+
+          return console.log("invalid coin input.");
+        }
+        playerBalance += Number(playerCreditTopUp.value);
+
+        p.style.fontSize = "1rem";
+        p.innerText = `You have successfully topped up ${playerCreditTopUp.value} coins!
+
+        Your new balance is ${playerBalance} coins.`;
+
+        document.getElementById("account-details-div").style.display = "block";
+        let userBalance = document.getElementById("credit-balance-div");
+        userBalance.innerText = `Balance: ${playerBalance}`;
+
+        return console.log("valid coin input.");
+      };
+
+      gameMode = "topping up";
+    });
+
+    // back button clicked
+    let backButton = document.querySelector("#back-button");
+    backButton.addEventListener("click", function () {
+      document.getElementById("back-button").style.display = "none";
+      document.getElementById("top-up-input-container").style.display = "none";
+
+      document.getElementById("rules-button").style.display = "inline-block";
+      document.getElementById("admin-message").style.display = "block";
+      document.getElementById("account-details-div").style.display = "block";
+
+      let container = document.getElementById("div-containers");
+      container.style.justifyContent = "center";
+
+      let p = document.getElementById("admin-message");
+      p.style.fontSize = "0.8rem";
+      p.innerText = `Click the start button to play.
+          (There must be credits in your balance to begin playing.)
+
+          Click the Top up button to add credits to your bankroll.
+
+          Click the Rules button to view the rules of Blackjack.`;
+
+      gameMode = "gamePrepare";
+
+      return console.log("Back to home screen.");
+    });
+
+    // start button clicked
+    let startButton = document.querySelector("#start-button");
+    startButton.addEventListener("click", function () {
+
+      document.getElementById("account-details-div").style.display = "block";
+
+      let container = document.getElementById("div-containers");
+      container.style.justifyContent = "center";
+
+
+      return;
+    })
   </script>
 </body>
 
