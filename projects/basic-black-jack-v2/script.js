@@ -54,7 +54,17 @@ let ACCOUNTS = [
 let playerBalance = 0;
 let playerBetTimes = 0;
 
-// - create database storage [WIP]
+// store player and dealer's hand
+let playerHand = [];
+let dealerHand = [];
+
+// store player and dealer's deal count
+let playerDealCount = 0;
+let dealerDealCount = 0;
+
+// - card images
+let cardBackImg = document.createElement("div");
+cardBackImg.innerHTML = '<img src="./images/back-of-card.png">';
 
 // - give value to face cards.
 let ace = 11;
@@ -66,19 +76,19 @@ let king = 10;
 const SUITS = ["clubs", "diamonds", "hearts", "spades"];
 const VALUE = [ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, jack, queen, king];
 const NAME = [
-  "Ace",
-  "Two",
-  "Three",
-  "Four",
-  "Five",
-  "Six",
-  "Seven",
-  "Eight",
-  "Nine",
-  "Ten",
-  "Jack",
-  "Queen",
-  "King",
+  "ace",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+  "jack",
+  "queen",
+  "king",
 ];
 
 // - create holder for unshuffled deck and a shuffled deck.
@@ -96,7 +106,7 @@ let createDeck = function () {
         unshuffledDeck.push({
           suit: SUITS[i],
           value: VALUE[o],
-          name: `${NAME[o]} of ${SUITS[i]}`,
+          name: `${NAME[o]}-of-${SUITS[i]}`,
         });
       }
     }
@@ -130,6 +140,32 @@ let initializeGame = function () {
   document.getElementById("bet-input-container").style.display = "block";
   document.getElementById("deal-button").style.display = "inline-block";
   document.getElementById("back-button").style.display = "inline-block";
+};
+
+let dealCards = function () {
+  // distribute cards to player and dealer accordingly
+  if (gameMode == "first-turn") {
+    playerHand[playerDealCount] = shuffledDeck.shift();
+    playerDealCount += 1;
+
+    document.getElementById("card-placement").style.display = "flex";
+    document.getElementById("player-first-hand").style.backgroundImage =
+      "url('./images/back-of-card.png')";
+
+    console.log(playerHand);
+
+    dealerHand[dealerDealCount] = shuffledDeck.shift();
+    dealerDealCount += 1;
+    console.log(dealerHand);
+
+    playerHand[playerDealCount] = shuffledDeck.shift();
+    playerDealCount += 1;
+    console.log(playerHand);
+
+    dealerHand[dealerDealCount] = shuffledDeck.shift();
+    dealerDealCount += 1;
+    console.log(dealerHand);
+  }
 };
 
 var main = function (input1, input2) {
@@ -373,6 +409,7 @@ var main = function (input1, input2) {
 
       document.getElementById("admin-message").style.display = "block";
       let p = document.getElementById("admin-message");
+      p.style = "revert";
       p.style.fontSize = "1rem";
       p.innerText = ``;
 
@@ -390,10 +427,19 @@ var main = function (input1, input2) {
             setTimeout(function () {
               p.innerText = `Shuffling deck...`;
               shuffleDeck();
+              gameMode = "first-turn";
+              dealCards();
+              setTimeout(function () {
+                document.getElementById("admin-message").style.display = "none";
+                p.innerText = "";
+              }, 1200);
             }, 1200);
             createDeck();
           }, 1200);
         }, 1800);
+      } else {
+        gameMode = "first-turn";
+        dealCards();
       }
 
       playerBalance -= playerBet.value;
