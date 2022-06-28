@@ -29,7 +29,7 @@
 // there will be two buttons, "Start" and "Rules".
 // "Rules" button will explain the rules of the game.
 // "Start" button will change the game mode to gamePrepare.
-// in gamePrepare mode, "Play" and "Add Credits" button will appear
+// in gamePrepare mode, "Play" and "Top up" button will appear
 // If there are no credits in the player's account, the "Play" button is disabled.
 // the player will be asked to enter a credit amount for waging. (max credit of 1,000)
 // when user added credits, enable the "Play" button.
@@ -50,8 +50,9 @@ let ACCOUNTS = [
   },
 ];
 
-// store player balance
+// store player balance and number of bets
 let playerBalance = 0;
+let playerBetTimes = 0;
 
 // - create database storage [WIP]
 
@@ -62,7 +63,7 @@ let queen = 10;
 let king = 10;
 
 // - create const for suit, value and name.
-const SUITS = ["Clubs", "Diamonds", "Hearts", "Spades"];
+const SUITS = ["clubs", "diamonds", "hearts", "spades"];
 const VALUE = [ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, jack, queen, king];
 const NAME = [
   "Ace",
@@ -114,6 +115,23 @@ let shuffleDeck = function () {
 
 // 2.
 
+let initializeGame = function () {
+  // hide visible buttons, admin message display "Welcome user, select a bet amount.
+  document.getElementById("div-containers").style.backgroundImage =
+    "url('./images/blackjack-table-cloth.jpg')";
+  // fade out start button, keep back and topup buttons add a deal button.
+
+  document.getElementById("start-button").style.display = "none";
+  document.getElementById("top-up-button").style.display = "none";
+  document.getElementById("rules-button").style.display = "none";
+  document.getElementById("admin-message").style.display = "none";
+  // change bg to blackjack table mat
+  // show an input to enter bet amount
+  document.getElementById("bet-input-container").style.display = "block";
+  document.getElementById("deal-button").style.display = "inline-block";
+  document.getElementById("back-button").style.display = "inline-block";
+};
+
 var main = function (input1, input2) {
   console.log("main function is running");
   console.log("gamemode is " + gameMode);
@@ -141,6 +159,7 @@ var main = function (input1, input2) {
         p.style = "revert";
         p.style.fontSize = "1.2rem";
 
+        // gamemode = "gamePrepare"
         gameMode == "gamePrepare";
 
         document.getElementById("start-button").style.display = "inline-block";
@@ -268,6 +287,7 @@ var main = function (input1, input2) {
         p.style = "revert";
         p.style.fontSize = "1.2rem";
 
+        // gamemode = "gamePrepare"
         gameMode = "gamePrepare";
 
         document.getElementById("start-button").style.display = "inline-block";
@@ -285,6 +305,14 @@ var main = function (input1, input2) {
           Click the Rules button to view the rules of Blackjack.`;
         }, 0);
 
+        // show balance and username
+        document.getElementById("account-details-div").style.display = "block";
+        let userBalance = document.getElementById("credit-balance-div");
+        userBalance.innerText = `Balance: ${playerBalance}`;
+
+        let accountName = document.getElementById("account-name-div");
+        accountName.innerText = `User: ${input1}`;
+
         return console.log("Account successfully registered!");
       }
     }
@@ -294,9 +322,89 @@ var main = function (input1, input2) {
     // otherwise, reject username. "choose another username"
   }
 
-  if (gameMode == "gamePrepare") {
-  }
-
   if (gameMode == "gameStart") {
+    console.log(gameMode);
+    let playerBet = document.querySelector("#input-field-bet");
+    let playerBal = document.querySelector("#credit-balance-div");
+
+    if (
+      isNaN(playerBet.value) ||
+      playerBet.value == "" ||
+      playerBet.value == 0 ||
+      playerBet.value < 0
+    ) {
+      document.getElementById("admin-message").style.display = "block";
+      let p = document.getElementById("admin-message");
+      p.innerText = `Invalid input.`;
+
+      // styling
+      p.style.color = "red";
+      p.style.fontSize = "small";
+      p.style.backgroundColor = "whitesmoke";
+      p.style.borderRadius = "5px";
+      p.style.padding = "5px 10px 5px 10px";
+      p.style.margin = "10px";
+
+      return console.log("Invalid input.");
+    }
+
+    if (playerBalance - playerBet.value < 0) {
+      // if bet is more than balance
+      document.getElementById("admin-message").style.display = "block";
+      let p = document.getElementById("admin-message");
+      p.innerText = `You don't have enough credits,
+        top up first before playing.`;
+
+      // styling
+      p.style.color = "red";
+      p.style.fontSize = "small";
+      p.style.backgroundColor = "whitesmoke";
+      p.style.borderRadius = "5px";
+      p.style.padding = "5px 10px 5px 10px";
+      p.style.margin = "10px";
+
+      return console.log(
+        "You don't have enough credits, top up first before playing."
+      );
+    }
+
+    if (playerBalance - playerBet.value >= 0) {
+      playerBetTimes += 1;
+
+      document.getElementById("admin-message").style.display = "block";
+      let p = document.getElementById("admin-message");
+      p.style.fontSize = "1rem";
+      p.innerText = ``;
+
+      // if bet is valid
+      setTimeout(function () {
+        p.innerText = `Bet validated...`;
+      }, 600);
+
+      // if it's player's first bet
+      if (playerBetTimes == 1) {
+        setTimeout(function () {
+          p.innerText = `First bet initialization...`;
+          setTimeout(function () {
+            p.innerText = `Building deck...`;
+            setTimeout(function () {
+              p.innerText = `Shuffling deck...`;
+              shuffleDeck();
+            }, 1200);
+            createDeck();
+          }, 1200);
+        }, 1800);
+      }
+
+      playerBalance -= playerBet.value;
+      playerBal.innerText = `Balance: ${playerBalance}`;
+
+      document.getElementById("deal-button").style.display = "none";
+      document.getElementById("back-button").style.display = "none";
+      document.getElementById("input-field-bet").style.display = "none";
+      document.getElementById("bet-input-container").style.display = "none";
+
+      return console.log("game start.");
+    }
   }
 };

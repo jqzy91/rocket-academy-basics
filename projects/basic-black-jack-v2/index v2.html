@@ -62,9 +62,11 @@
       background-image: url("./images/casino-bg.jpg");
       background-size: cover;
       background-repeat: no-repeat;
+      background-position: center;
+      transition: background 1s ease-in-out;
 
-      min-width: 40vw;
-      max-width: 60vw;
+      min-width: 50vw;
+      max-width: 70vw;
       /* min-height: 300px; */
       min-height: 300px;
       max-height: 450px;
@@ -131,6 +133,7 @@
 
       font-size: 0.7rem;
     }
+
 
     input {
       display: block;
@@ -217,14 +220,20 @@
       <br />
     </div>
 
+    <div class="input-containers" id="bet-input-container">
+      <p>Place your bets!</p>
+      <input id="input-field-bet" placeholder="100"></input>
+      <br />
+    </div>
+
     <div id="button-div">
       <button id="login-button">Log in</button>
       <button id="sign-up-button">Sign up</button>
       <button id="start-button">Start</button>
       <button id="top-up-button">Top up</button>
       <button id="rules-button">Rules</button>
-      <button id="back-button">Back</button>
       <button id="deal-button">Deal</button>
+      <button id="back-button">Back</button>
     </div>
   </container>
 
@@ -248,6 +257,7 @@
     document.getElementById("admin-message").style.display = "none";
     document.getElementById("account-details-div").style.display = "none";
     document.getElementById("top-up-input-container").style.display = "none";
+    document.getElementById("bet-input-container").style.display = "none";
 
     // check username and password
     let loginButton = document.querySelector("#login-button");
@@ -342,6 +352,7 @@
 
       document.getElementById("rules-button").style.display = "none";
       document.getElementById("admin-message").style.display = "none";
+      document.getElementById("start-button").style.display = "none";
 
       let container = document.getElementById("div-containers");
       container.style.justifyContent = "center";
@@ -373,6 +384,12 @@
         let userBalance = document.getElementById("credit-balance-div");
         userBalance.innerText = `Balance: ${playerBalance}`;
 
+        playerCreditTopUp.value = "";
+
+        document.getElementById("start-button").style.display = "inline-block";
+        document.getElementById("top-up-input-container").style.display = "none";
+        document.getElementById("top-up-button").style.display = "none";
+
         return console.log("valid coin input.");
       };
 
@@ -383,16 +400,25 @@
     let backButton = document.querySelector("#back-button");
     backButton.addEventListener("click", function () {
       document.getElementById("back-button").style.display = "none";
+      document.getElementById("deal-button").style.display = "none";
       document.getElementById("top-up-input-container").style.display = "none";
+      document.getElementById("bet-input-container").style.display = "none";
 
+      document.getElementById("start-button").style.display = "inline-block";
+      document.getElementById("top-up-button").style.display = "inline-block";
       document.getElementById("rules-button").style.display = "inline-block";
       document.getElementById("admin-message").style.display = "block";
       document.getElementById("account-details-div").style.display = "block";
+
+      document.getElementById("div-containers").style.backgroundImage =
+    "url('./images/casino-bg.jpg')";
+    
 
       let container = document.getElementById("div-containers");
       container.style.justifyContent = "center";
 
       let p = document.getElementById("admin-message");
+      p.style = "revert"
       p.style.fontSize = "0.8rem";
       p.innerText = `Click the start button to play.
           (There must be credits in your balance to begin playing.)
@@ -409,12 +435,25 @@
     // start button clicked
     let startButton = document.querySelector("#start-button");
     startButton.addEventListener("click", function () {
+      document.getElementById("top-up-input-container").style.display = "none";
 
       document.getElementById("account-details-div").style.display = "block";
 
       let container = document.getElementById("div-containers");
       container.style.justifyContent = "center";
 
+      gameMode = "gameStart";
+
+      // initialize game board background, betting amount
+      initializeGame();
+
+      return;
+    })
+
+    // deal button clicked
+    let dealButton = document.querySelector("#deal-button");
+    dealButton.addEventListener("click", function () {
+      main();
 
       return;
     })
