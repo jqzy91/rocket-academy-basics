@@ -67,9 +67,9 @@
 
       min-width: 50vw;
       max-width: 55vw;
-      /* min-height: 300px; */
-      min-height: 400px;
-      max-height: 500px;
+
+      height: 400px;
+    
       overflow: auto;
 
       border-color: rgb(161, 161, 161);
@@ -442,7 +442,7 @@
       document.getElementById("deal-button").style.display = "none";
       document.getElementById("top-up-input-container").style.display = "none";
       document.getElementById("bet-input-container").style.display = "none";
-
+      
       document.getElementById("start-button").style.display = "inline-block";
       document.getElementById("top-up-button").style.display = "inline-block";
       document.getElementById("rules-button").style.display = "inline-block";
@@ -452,6 +452,10 @@
       document.getElementById("div-containers").style.backgroundImage =
         "url('./images/casino-bg.jpg')";
 
+      let inputFieldBet = document.getElementById("input-field-bet");
+      inputFieldBet.value = "";
+      let inputFieldTopup = document.getElementById("input-field-top-up");
+      inputFieldTopup.value = "";
 
       let container = document.getElementById("div-containers");
       container.style.justifyContent = "center";
