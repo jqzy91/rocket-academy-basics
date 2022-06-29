@@ -53,14 +53,15 @@ let ACCOUNTS = [
 // store player balance and number of bets
 let playerBalance = 0;
 let playerBetTimes = 0;
+let currentBet = 0;
 
 // store player and dealer's hand
 let playerHand = [];
 let dealerHand = [];
 
-// store player and dealer's deal count
-let playerDealCount = 0;
-let dealerDealCount = 0;
+// store player and dealer's deal  ( -1 is the new 0)
+let playerDealCount = -1;
+let dealerDealCount = -1;
 
 // - card images
 let cardBackImg = document.createElement("div");
@@ -140,6 +141,9 @@ let initializeGame = function () {
   document.getElementById("bet-input-container").style.display = "block";
   document.getElementById("deal-button").style.display = "inline-block";
   document.getElementById("back-button").style.display = "inline-block";
+
+  // switch off late game message
+  document.getElementById("result-show").style.display = "none";
 };
 
 let dealCards = function () {
@@ -152,19 +156,210 @@ let dealCards = function () {
     document.getElementById("player-first-hand").style.backgroundImage =
       "url('./images/back-of-card.png')";
 
-    console.log(playerHand);
+    setTimeout(function () {
+      document.getElementById("player-first-hand").style.transform =
+        "rotateY(180deg)";
+      document.getElementById("player-first-hand").style.opacity = "100%";
+      document.getElementById(
+        "player-first-hand"
+      ).style.backgroundImage = `url('./images/${
+        playerHand[playerDealCount - 1].name
+      }.png')`;
 
-    dealerHand[dealerDealCount] = shuffledDeck.shift();
-    dealerDealCount += 1;
-    console.log(dealerHand);
+      console.log(playerHand);
 
-    playerHand[playerDealCount] = shuffledDeck.shift();
-    playerDealCount += 1;
-    console.log(playerHand);
+      setTimeout(function () {
+        dealerHand[dealerDealCount] = shuffledDeck.shift();
+        dealerDealCount += 1;
 
-    dealerHand[dealerDealCount] = shuffledDeck.shift();
-    dealerDealCount += 1;
-    console.log(dealerHand);
+        document.getElementById("dealer-first-hand").style.backgroundImage =
+          "url('./images/back-of-card.png')";
+
+        setTimeout(function () {
+          document.getElementById("dealer-first-hand").style.transform =
+            "rotateY(180deg)";
+          document.getElementById("dealer-first-hand").style.opacity = "100%";
+          document.getElementById(
+            "dealer-first-hand"
+          ).style.backgroundImage = `url('./images/${
+            dealerHand[dealerDealCount - 1].name
+          }.png')`;
+
+          console.log(dealerHand);
+
+          setTimeout(function () {
+            playerHand[playerDealCount] = shuffledDeck.shift();
+            playerDealCount += 1;
+
+            document.getElementById(
+              "player-second-hand"
+            ).style.backgroundImage = "url('./images/back-of-card.png')";
+
+            setTimeout(function () {
+              document.getElementById("player-second-hand").style.transform =
+                "rotateY(180deg)";
+              document.getElementById("player-second-hand").style.opacity =
+                "100%";
+              document.getElementById(
+                "player-second-hand"
+              ).style.backgroundImage = `url('./images/${
+                playerHand[playerDealCount - 1].name
+              }.png')`;
+
+              console.log(playerHand);
+
+              setTimeout(function () {
+                dealerHand[dealerDealCount] = shuffledDeck.shift();
+                dealerDealCount += 1;
+
+                document.getElementById(
+                  "dealer-second-hand"
+                ).style.backgroundImage = "url('./images/back-of-card.png')";
+
+                setTimeout(function () {
+                  document.getElementById("dealer-second-hand").style.opacity =
+                    "100%";
+
+                  console.log(dealerHand);
+
+                  setTimeout(function () {
+                    gameMode = "player-turn";
+
+                    let playerScore = document.getElementById("player-score");
+
+                    document.getElementById("player-score").style.opacity =
+                      "100%";
+
+                    document.getElementById("dealer-score").style.opacity =
+                      "100%";
+
+                    if (playerHand[-1].value + playerHand[0].value == 21) {
+                      playerScore.innerText = `BJ`;
+
+                      if (dealerHand[-1].value + dealerHand[0].value == 21) {
+                        dealerScore.innerText = `BJ`;
+
+                        document.getElementById("result-show").style.display =
+                          "block";
+
+                        let resultShow = document.getElementById("result-show");
+                        resultShow.innerText =
+                          "Draw! Both sides drew Black Jack!";
+
+                        // play again? or go back button.
+                        document.getElementById("play-button").style.display =
+                          "inline-block";
+                        document.getElementById("return-button").style.display =
+                          "inline-block";
+
+                        playerDealCount = -1;
+                        dealerDealCount = -1;
+                        return;
+                      } else {
+                        document.getElementById("result-show").style.display =
+                          "block";
+
+                        let resultShow = document.getElementById("result-show");
+                        resultShow.innerText = `You won ${
+                          currentBet * 2
+                        } credits with Black Jack!`;
+
+                        // play again? or go back button.
+                        document.getElementById("play-button").style.display =
+                          "inline-block";
+                        document.getElementById("return-button").style.display =
+                          "inline-block";
+
+                        playerDealCount = -1;
+                        dealerDealCount = -1;
+                        return;
+                      }
+                    } else if (dealerHand[-1].value == 10) {
+                      if (dealerHand[-1].value + dealerHand[0].value == 21) {
+                        let dealerScore =
+                          document.getElementById("dealer-score");
+                        dealerScore.innerText = `BJ`;
+                        if (
+                          dealerHand[-1].value + dealerHand[0].value >
+                          playerHand[-1].value + playerHand[0].value
+                        ) {
+                          document.getElementById("result-show").style.display =
+                            "block";
+
+                          let resultShow =
+                            document.getElementById("result-show");
+                          resultShow.innerText = `Dealer wins with Black Jack!`;
+
+                          // play again? or go back button.
+                          document.getElementById("play-button").style.display =
+                            "inline-block";
+                          document.getElementById(
+                            "return-button"
+                          ).style.display = "inline-block";
+
+                          playerDealCount = -1;
+                          dealerDealCount = -1;
+                          return;
+                        } else {
+                          playerScore.innerText = `BJ`;
+
+                          document.getElementById("result-show").style.display =
+                            "block";
+
+                          let resultShow =
+                            document.getElementById("result-show");
+                          resultShow.innerText =
+                            "Draw! Both sides drew Black Jack!";
+
+                          // play again? or go back button.
+                          document.getElementById("play-button").style.display =
+                            "inline-block";
+                          document.getElementById(
+                            "return-button"
+                          ).style.display = "inline-block";
+
+                          playerDealCount = -1;
+                          dealerDealCount = -1;
+                          return;
+                        }
+                      } else {
+                        playerScore.innerText = `${
+                          playerHand[-1].value + playerHand[0].value
+                        }`;
+
+                        // Double down, Hit or Stand button.
+                        document.getElementById("double-button").style.display =
+                          "inline-block";
+                        document.getElementById("hit-button").style.display =
+                          "inline-block";
+                        document.getElementById("stand-button").style.display =
+                          "inline-block";
+
+                        return;
+                      }
+                    } else {
+                      playerScore.innerText = `${
+                        playerHand[-1].value + playerHand[0].value
+                      }`;
+
+                      // Double down, Hit or Stand button.
+                      document.getElementById("double-button").style.display =
+                        "inline-block";
+                      document.getElementById("hit-button").style.display =
+                        "inline-block";
+                      document.getElementById("stand-button").style.display =
+                        "inline-block";
+
+                      return;
+                    }
+                  }, 500);
+                }, 500);
+              }, 500);
+            }, 500);
+          }, 500);
+        }, 500);
+      }, 500);
+    }, 500);
   }
 };
 
@@ -413,8 +608,9 @@ var main = function (input1, input2) {
       p.style.fontSize = "1rem";
       p.innerText = ``;
 
-      // if bet is valid
+      // if bet is valid for first turn & first turn + first bet
       setTimeout(function () {
+        currentBet = playerBet.value;
         p.innerText = `Bet validated...`;
       }, 600);
 
@@ -451,6 +647,88 @@ var main = function (input1, input2) {
       document.getElementById("bet-input-container").style.display = "none";
 
       return console.log("game start.");
+    }
+  }
+
+  if (gameMode == "player-turn") {
+    if (input1 == "double") {
+      document.getElementById("double-button").style.display = "none";
+      document.getElementById("hit-button").style.display = "none";
+      document.getElementById("stand-button").style.display = "none";
+
+      let playerScore = document.getElementById("player-score");
+      // draw a card.
+      playerHand[playerDealCount] = shuffledDeck.shift();
+      playerDealCount += 1;
+
+      document.getElementById("player-third-hand").style.backgroundImage =
+        "url('./images/back-of-card.png')";
+
+      setTimeout(function () {
+        document.getElementById("player-third-hand").style.transform =
+          "rotateY(180deg)";
+        document.getElementById("player-third-hand").style.opacity = "100%";
+        document.getElementById(
+          "player-third-hand"
+        ).style.backgroundImage = `url('./images/${
+          playerHand[playerDealCount - 1].name
+        }.png')`;
+
+        console.log(playerHand);
+        setTimeout(function () {
+          // check if ace is in play, check if value is over 21, reduce ace value to 1. end the turn.
+          for (let i = -1; i < playerHand.length; i++) {
+            if (playerHand[i].SUITS == "ace") {
+              if (
+                playerHand[-1].value +
+                  playerHand[0].value +
+                  playerHand[1].value >
+                21
+              ) {
+                playerHand[i].value = 1;
+              }
+            }
+          }
+
+          if (
+            playerHand[-1].value + playerHand[0].value + playerHand[1].value >
+            21
+          ) {
+            playerScore.innerText = "BUST";
+
+            document.getElementById("result-show").style.display = "block";
+            let resultShow = document.getElementById("result-show");
+            resultShow.innerText = `BUST!`;
+
+            // play again? or go back button.
+            document.getElementById("play-button").style.display =
+              "inline-block";
+            document.getElementById("return-button").style.display =
+              "inline-block";
+
+            playerDealCount = -1;
+            dealerDealCount = -1;
+
+            return;
+          }
+          // else, end the turn
+          playerScore.innerText = `${
+            playerHand[-1].value + playerHand[0].value + playerHand[1].value
+          }`;
+
+          document.getElementById("result-show").style.display = "block";
+          let resultShow = document.getElementById("result-show");
+          resultShow.innerText = `Dealer's turn`;
+          return;
+        }, 500);
+      }, 500);
+      // else if ace is not in play, check if value is over 21, bust. end the turn.
+
+      return;
+    } else if (input1 == "hit") {
+      return;
+    } else if (input1 == "stand") {
+      return;
     }
   }
 };

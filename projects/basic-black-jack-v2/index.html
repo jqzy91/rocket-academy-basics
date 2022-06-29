@@ -65,11 +65,12 @@
       background-position: center;
       transition: background 1s ease-in-out;
 
-      min-width: 50vw;
-      max-width: 55vw;
+      min-height: 550px;
 
-      height: 400px;
-    
+      min-width: 50%;
+
+      max-height: 60vh;
+
       overflow: auto;
 
       border-color: rgb(161, 161, 161);
@@ -140,11 +141,16 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 70%;
-
+      height: 80%;
     }
 
     .cards-holder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .store-cards {
       display: flex;
       flex-direction: row;
     }
@@ -153,10 +159,39 @@
       background-size: cover;
       box-shadow: 1px 1px 3px rgb(70, 51, 4);
 
-      width: 50px;
-      height: 62.5px;
-      
+      width: 60px;
+      height: 75px;
+
       margin: 10px;
+
+      transform-style: preserve-3d;
+      transition: all 0.3s ease;
+
+      opacity: 0%;
+    }
+
+    .score-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: rgb(40, 40, 40);
+      box-shadow: 1px 1px 3px rgb(44, 44, 44);
+
+      font-size: 12px;
+
+      height: 25px;
+      width: 40px;
+
+      border-radius: 100%;
+
+      opacity: 0%;
+      
+      transition: all 0.3s ease;
+    }
+
+    #result-show {
+      font-size: 1.2rem;
     }
 
 
@@ -262,15 +297,33 @@
     </div>
 
     <div id="card-placement">
+
       <div class="cards-holder">
-        <div class="playing-cards" id="dealer-first-hand"></div>
-        <div class="playing-cards" id="dealer-second-hand"></div>
-      </div>
-      <div class="cards-holder">
-        <div class="playing-cards" id="player-first-hand"></div>
-        <div class="playing-cards" id="player-second-hand"></div>
+        <div class="score-card" id="dealer-score">-</div>
+        <div class="store-cards">
+          <div class="playing-cards" id="dealer-first-hand"></div>
+          <div class="playing-cards" id="dealer-second-hand"></div>
+        </div>
       </div>
 
+      <div id="result-show"></div>
+
+      <div class="cards-holder">
+        <div class="playing-cards" id="player-third-hand"></div>
+        <div class="store-cards">
+          <div class="playing-cards" id="player-first-hand"></div>
+          <div class="playing-cards" id="player-second-hand"></div>
+        </div>
+        <div class="score-card" id="player-score">-</div>
+      </div>
+
+      <div id="game-button-div">
+        <button id="double-button">Double</button>
+        <button id="hit-button">Hit</button>
+        <button id="stand-button">Stand</button>
+        <button id="play-button">Play</button>
+        <button id="return-button">Return</button>
+      </div>
 
     </div>
   </container>
@@ -289,6 +342,11 @@
     document.getElementById("deal-button").style.display = "none";
     document.getElementById("back-button").style.display = "none";
     document.getElementById("top-up-button").style.display = "none";
+    document.getElementById("double-button").style.display = "none";
+    document.getElementById("hit-button").style.display = "none";
+    document.getElementById("stand-button").style.display = "none";
+    document.getElementById("play-button").style.display = "none";
+    document.getElementById("return-button").style.display = "none";
 
     // containers involved -> "login-signup-input-container". disable the rest
 
@@ -297,7 +355,7 @@
     document.getElementById("top-up-input-container").style.display = "none";
     document.getElementById("bet-input-container").style.display = "none";
     document.getElementById("card-placement").style.display = "none";
-
+    
     // check username and password
     let loginButton = document.querySelector("#login-button");
     loginButton.addEventListener("click", function () {
@@ -442,7 +500,7 @@
       document.getElementById("deal-button").style.display = "none";
       document.getElementById("top-up-input-container").style.display = "none";
       document.getElementById("bet-input-container").style.display = "none";
-      
+
       document.getElementById("start-button").style.display = "inline-block";
       document.getElementById("top-up-button").style.display = "inline-block";
       document.getElementById("rules-button").style.display = "inline-block";
@@ -499,8 +557,44 @@
       main();
 
       return;
-    })
-  </script>
+    });
+
+    // double button clicked
+    let doubleButton = document.querySelector("#double-button");
+    doubleButton.addEventListener("click", function () {
+      main("double");
+    return;
+    });
+
+    // hit button clicked
+    let hitButton = document.querySelector("#hit-button");
+    hitButton.addEventListener("click", function () {
+      main("hit");
+    return;
+    });
+
+    // stand button clicked
+    let standButton = document.querySelector("#hit-button");
+    standButton.addEventListener("click", function () {
+      main("stand");
+    return;
+    });
+
+    // play button clicked
+    let playButton = document.querySelector("#hit-button");
+    playButton.addEventListener("click", function () {
+      main();
+    return;
+    });
+
+    // return button clicked
+    let returnButton = document.querySelector("#hit-button");
+    returnButton.addEventListener("click", function () {
+      main();
+    return;
+    });
+
+</script>
 </body>
 
 </html>
