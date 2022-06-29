@@ -57,6 +57,7 @@ let currentBet = 0;
 
 // store player and dealer's hand
 let playerHand = [];
+let totalHandValue = 0;
 let dealerHand = [];
 
 // store player and dealer's deal  ( -1 is the new 0)
@@ -152,11 +153,15 @@ let dealCards = function () {
     playerHand[playerDealCount] = shuffledDeck.shift();
     playerDealCount += 1;
 
+    let dealerScore = document.getElementById("dealer-score");
+    let playerScore = document.getElementById("player-score");
+
     document.getElementById("card-placement").style.display = "flex";
     document.getElementById("player-first-hand").style.backgroundImage =
       "url('./images/back-of-card.png')";
 
     setTimeout(function () {
+      document.getElementById("player-first-hand").style.display = "block";
       document.getElementById("player-first-hand").style.transform =
         "rotateY(180deg)";
       document.getElementById("player-first-hand").style.opacity = "100%";
@@ -225,8 +230,6 @@ let dealCards = function () {
                   setTimeout(function () {
                     gameMode = "player-turn";
 
-                    let playerScore = document.getElementById("player-score");
-
                     document.getElementById("player-score").style.opacity =
                       "100%";
 
@@ -238,6 +241,18 @@ let dealCards = function () {
 
                       if (dealerHand[-1].value + dealerHand[0].value == 21) {
                         dealerScore.innerText = `BJ`;
+
+                        document.getElementById(
+                          "dealer-second-hand"
+                        ).style.transform = "rotateY(180deg)";
+                        document.getElementById(
+                          "dealer-second-hand"
+                        ).style.opacity = "100%";
+                        document.getElementById(
+                          "dealer-second-hand"
+                        ).style.backgroundImage = `url('./images/${
+                          dealerHand[dealerDealCount - 1].name
+                        }.png')`;
 
                         document.getElementById("result-show").style.display =
                           "block";
@@ -256,6 +271,18 @@ let dealCards = function () {
                         dealerDealCount = -1;
                         return;
                       } else {
+                        document.getElementById(
+                          "dealer-second-hand"
+                        ).style.transform = "rotateY(180deg)";
+                        document.getElementById(
+                          "dealer-second-hand"
+                        ).style.opacity = "100%";
+                        document.getElementById(
+                          "dealer-second-hand"
+                        ).style.backgroundImage = `url('./images/${
+                          dealerHand[dealerDealCount - 1].name
+                        }.png')`;
+
                         document.getElementById("result-show").style.display =
                           "block";
 
@@ -276,13 +303,35 @@ let dealCards = function () {
                       }
                     } else if (dealerHand[-1].value == 10) {
                       if (dealerHand[-1].value + dealerHand[0].value == 21) {
-                        let dealerScore =
-                          document.getElementById("dealer-score");
                         dealerScore.innerText = `BJ`;
+
+                        document.getElementById(
+                          "dealer-second-hand"
+                        ).style.transform = "rotateY(180deg)";
+                        document.getElementById(
+                          "dealer-second-hand"
+                        ).style.opacity = "100%";
+                        document.getElementById(
+                          "dealer-second-hand"
+                        ).style.backgroundImage = `url('./images/${
+                          dealerHand[dealerDealCount - 1].name
+                        }.png')`;
                         if (
                           dealerHand[-1].value + dealerHand[0].value >
                           playerHand[-1].value + playerHand[0].value
                         ) {
+                          document.getElementById(
+                            "dealer-second-hand"
+                          ).style.transform = "rotateY(180deg)";
+                          document.getElementById(
+                            "dealer-second-hand"
+                          ).style.opacity = "100%";
+                          document.getElementById(
+                            "dealer-second-hand"
+                          ).style.backgroundImage = `url('./images/${
+                            dealerHand[dealerDealCount - 1].name
+                          }.png')`;
+
                           document.getElementById("result-show").style.display =
                             "block";
 
@@ -302,6 +351,18 @@ let dealCards = function () {
                           return;
                         } else {
                           playerScore.innerText = `BJ`;
+
+                          document.getElementById(
+                            "dealer-second-hand"
+                          ).style.transform = "rotateY(180deg)";
+                          document.getElementById(
+                            "dealer-second-hand"
+                          ).style.opacity = "100%";
+                          document.getElementById(
+                            "dealer-second-hand"
+                          ).style.backgroundImage = `url('./images/${
+                            dealerHand[dealerDealCount - 1].name
+                          }.png')`;
 
                           document.getElementById("result-show").style.display =
                             "block";
@@ -636,6 +697,9 @@ var main = function (input1, input2) {
       } else {
         gameMode = "first-turn";
         dealCards();
+        console.log("dealCards after bet validation");
+        document.getElementById("admin-message").style.display = "none";
+        p.innerText = "";
       }
 
       playerBalance -= playerBet.value;
@@ -678,7 +742,12 @@ var main = function (input1, input2) {
         setTimeout(function () {
           // check if ace is in play, check if value is over 21, reduce ace value to 1. end the turn.
           for (let i = -1; i < playerHand.length; i++) {
-            if (playerHand[i].SUITS == "ace") {
+            if (
+              playerHand[i].name == "ace-of-spades" ||
+              playerHand[i].name == "ace-of-hearts" ||
+              playerHand[i].name == "ace-of-diamonds" ||
+              playerHand[i].name == "ace-of-clubs"
+            ) {
               if (
                 playerHand[-1].value +
                   playerHand[0].value +
@@ -715,20 +784,153 @@ var main = function (input1, input2) {
           playerScore.innerText = `${
             playerHand[-1].value + playerHand[0].value + playerHand[1].value
           }`;
+          document.getElementById("double-button").style.display = "none";
+          document.getElementById("hit-button").style.display = "none";
+          document.getElementById("stand-button").style.display = "none";
 
           document.getElementById("result-show").style.display = "block";
           let resultShow = document.getElementById("result-show");
           resultShow.innerText = `Dealer's turn`;
+
+          gameMode = "dealer-turn";
+
+          dealerTurn();
           return;
         }, 500);
       }, 500);
-      // else if ace is not in play, check if value is over 21, bust. end the turn.
-
       return;
     } else if (input1 == "hit") {
+      document.getElementById("double-button").style.display = "none";
+
+      let playerScore = document.getElementById("player-score");
+      // draw a card.
+      playerHand[playerDealCount] = shuffledDeck.shift();
+      playerDealCount += 1;
+
+      setTimeout(function () {
+        if (playerDealCount == 2) {
+          document.getElementById("player-fourth-hand").style.display = "none";
+
+          document.getElementById("player-third-hand").style.backgroundImage =
+            "url('./images/back-of-card.png')";
+          document.getElementById("player-third-hand").style.transform =
+            "rotateY(180deg)";
+          document.getElementById("player-third-hand").style.opacity = "100%";
+          document.getElementById(
+            "player-third-hand"
+          ).style.backgroundImage = `url('./images/${
+            playerHand[playerDealCount - 1].name
+          }.png')`;
+        } else if (playerDealCount == 3) {
+          document.getElementById("player-fourth-hand").style.display = "block";
+
+          document.getElementById("player-fourth-hand").style.backgroundImage =
+            "url('./images/back-of-card.png')";
+          document.getElementById("player-fourth-hand").style.transform =
+            "rotateY(180deg)";
+          document.getElementById("player-fourth-hand").style.opacity = "100%";
+          document.getElementById(
+            "player-fourth-hand"
+          ).style.backgroundImage = `url('./images/${
+            playerHand[playerDealCount - 1].name
+          }.png')`;
+        }
+
+        console.log(playerHand);
+        setTimeout(function () {
+          // check if ace is in play, check if value is over 21, reduce ace value to 1. end the turn.
+          for (let i = -1; i < playerHand.length; i++) {
+            if (
+              playerHand[i].name == "ace-of-spades" ||
+              playerHand[i].name == "ace-of-hearts" ||
+              playerHand[i].name == "ace-of-diamonds" ||
+              playerHand[i].name == "ace-of-clubs"
+            ) {
+              if (
+                playerHand[-1].value +
+                  playerHand[0].value +
+                  playerHand[1].value >
+                21
+              ) {
+                playerHand[i].value = 1;
+              }
+            }
+          }
+
+          for (let o = -1; o < playerHand.length; o++) {
+            totalHandValue += playerHand[o].value;
+          }
+
+          if (totalHandValue > 21) {
+            playerScore.innerText = "BUST";
+
+            document.getElementById("result-show").style.display = "block";
+            let resultShow = document.getElementById("result-show");
+            resultShow.innerText = `BUST!`;
+
+            // play again? or go back button.
+            document.getElementById("play-button").style.display =
+              "inline-block";
+            document.getElementById("return-button").style.display =
+              "inline-block";
+
+            document.getElementById("hit-button").style.display = "none";
+            document.getElementById("stand-button").style.display = "none";
+
+            playerDealCount = -1;
+            dealerDealCount = -1;
+
+            return;
+          } else if (totalHandValue == 21) {
+            playerScore.innerText = `${
+              playerHand[-1].value + playerHand[0].value + playerHand[1].value
+            }`;
+
+            document.getElementById("double-button").style.display = "none";
+            document.getElementById("hit-button").style.display = "none";
+            document.getElementById("stand-button").style.display = "none";
+
+            document.getElementById("result-show").style.display = "block";
+            let resultShow = document.getElementById("result-show");
+            resultShow.innerText = `Dealer's turn`;
+
+            gameMode = "dealer-turn";
+
+            dealerTurn();
+            return;
+          } else if (totalHandValue < 21) {
+            playerScore.innerText = `${
+              playerHand[-1].value + playerHand[0].value + playerHand[1].value
+            }`;
+
+            return;
+          }
+        }, 500);
+      }, 500);
       return;
     } else if (input1 == "stand") {
+      document.getElementById("dealer-second-hand").style.transform =
+        "rotateY(180deg)";
+      document.getElementById("dealer-second-hand").style.opacity = "100%";
+      document.getElementById(
+        "dealer-second-hand"
+      ).style.backgroundImage = `url('./images/${
+        dealerHand[dealerDealCount - 1].name
+      }.png')`;
+
+      document.getElementById("result-show").style.display = "block";
+      let resultShow = document.getElementById("result-show");
+      resultShow.innerText = `Player Stand, Dealer's turn`;
+
+      gameMode = "dealer-turn";
+
+      document.getElementById("hit-button").style.display = "none";
+      document.getElementById("stand-button").style.display = "none";
+      document.getElementById("double-button").style.display = "none";
+
+      dealerTurn();
       return;
     }
   }
+  return;
 };

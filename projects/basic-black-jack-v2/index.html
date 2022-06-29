@@ -37,7 +37,7 @@
     .header {
       text-align: center;
       font-size: 1.1rem;
-      margin-bottom: 3rem;
+      margin-bottom: 1rem;
     }
 
     p {
@@ -155,6 +155,11 @@
       flex-direction: row;
     }
 
+    .store-cards-2 {
+      display: flex;
+      flex-direction: row;
+    }
+
     .playing-cards {
       background-size: cover;
       box-shadow: 1px 1px 3px rgb(70, 51, 4);
@@ -186,12 +191,12 @@
       border-radius: 100%;
 
       opacity: 0%;
-      
+
       transition: all 0.3s ease;
     }
 
     #result-show {
-      font-size: 1.2rem;
+      font-size: 20px;
     }
 
 
@@ -303,13 +308,19 @@
         <div class="store-cards">
           <div class="playing-cards" id="dealer-first-hand"></div>
           <div class="playing-cards" id="dealer-second-hand"></div>
+          <div class="playing-cards" id="dealer-third-hand"></div>
+          <div class="playing-cards" id="dealer-fourth-hand"></div>
         </div>
       </div>
 
       <div id="result-show"></div>
 
       <div class="cards-holder">
-        <div class="playing-cards" id="player-third-hand"></div>
+        <div class=" store-cards-2">
+          <div class="playing-cards" id="player-third-hand"></div>
+          <div class="playing-cards" id="player-fourth-hand"></div>
+        </div>
+
         <div class="store-cards">
           <div class="playing-cards" id="player-first-hand"></div>
           <div class="playing-cards" id="player-second-hand"></div>
@@ -355,7 +366,11 @@
     document.getElementById("top-up-input-container").style.display = "none";
     document.getElementById("bet-input-container").style.display = "none";
     document.getElementById("card-placement").style.display = "none";
-    
+
+    // other
+    document.getElementById("dealer-third-hand").style.display = "none";
+    document.getElementById("dealer-fourth-hand").style.display = "none";
+
     // check username and password
     let loginButton = document.querySelector("#login-button");
     loginButton.addEventListener("click", function () {
@@ -554,6 +569,7 @@
     // deal button clicked
     let dealButton = document.querySelector("#deal-button");
     dealButton.addEventListener("click", function () {
+
       main();
 
       return;
@@ -563,38 +579,67 @@
     let doubleButton = document.querySelector("#double-button");
     doubleButton.addEventListener("click", function () {
       main("double");
-    return;
+      return;
     });
 
     // hit button clicked
     let hitButton = document.querySelector("#hit-button");
     hitButton.addEventListener("click", function () {
       main("hit");
-    return;
+      return;
     });
 
     // stand button clicked
-    let standButton = document.querySelector("#hit-button");
+    let standButton = document.querySelector("#stand-button");
     standButton.addEventListener("click", function () {
       main("stand");
-    return;
+      return;
     });
 
     // play button clicked
-    let playButton = document.querySelector("#hit-button");
+    let playButton = document.querySelector("#play-button");
     playButton.addEventListener("click", function () {
-      main();
-    return;
+      document.getElementById("card-placement").style.display = "none";
+      document.getElementById("dealer-score").style.display = "none";
+      document.getElementById("player-score").style.display = "none";
+      document.getElementById("result-show").style.display = "none";
+      document.getElementById("play-button").style.display = "none";
+      document.getElementById("return-button").style.display = "none";
+      
+      document.getElementById("player-first-hand").style.backgroundImage = "none";
+      document.getElementById("player-second-hand").style.backgroundImage = "none";
+      document.getElementById("player-third-hand").style.backgroundImage = "none";
+      document.getElementById("player-fourth-hand").style.backgroundImage = "none";
+      
+      document.getElementById("dealer-first-hand").style.backgroundImage = "none";
+      document.getElementById("dealer-second-hand").style.backgroundImage = "none";
+      document.getElementById("dealer-third-hand").style.backgroundImage = "none";
+      document.getElementById("dealer-fourth-hand").style.backgroundImage = "none";
+
+      document.getElementById("input-field-bet").style.display = "block";
+
+      let playerHand = [];
+      let totalHandValue = 0;
+      let dealerHand = [];
+
+      gameMode = "gameStart";
+
+      playerDealCount = -1;
+      dealerDealCount = -1;
+
+      // initialize game board background, betting amount
+      initializeGame();
+      return;
     });
 
     // return button clicked
-    let returnButton = document.querySelector("#hit-button");
+    let returnButton = document.querySelector("#return-button");
     returnButton.addEventListener("click", function () {
       main();
-    return;
+      return;
     });
 
-</script>
+  </script>
 </body>
 
 </html>
