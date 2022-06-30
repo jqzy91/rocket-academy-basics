@@ -569,6 +569,8 @@
     // deal button clicked
     let dealButton = document.querySelector("#deal-button");
     dealButton.addEventListener("click", function () {
+      gameMode == "first-turn"
+      console.log(gameMode);
 
       main();
 
@@ -600,23 +602,25 @@
     let playButton = document.querySelector("#play-button");
     playButton.addEventListener("click", function () {
       document.getElementById("card-placement").style.display = "none";
-      document.getElementById("dealer-score").style.display = "none";
-      document.getElementById("player-score").style.display = "none";
-      document.getElementById("result-show").style.display = "none";
+      // document.getElementById("dealer-score").style.display = "none";
+      // document.getElementById("player-score").style.display = "none";
+      // document.getElementById("result-show").style.display = "none";
       document.getElementById("play-button").style.display = "none";
       document.getElementById("return-button").style.display = "none";
       
-      document.getElementById("player-first-hand").style.backgroundImage = "none";
-      document.getElementById("player-second-hand").style.backgroundImage = "none";
-      document.getElementById("player-third-hand").style.backgroundImage = "none";
-      document.getElementById("player-fourth-hand").style.backgroundImage = "none";
+      document.getElementById("player-first-hand").style.opacity = "0%";
+      document.getElementById("player-second-hand").style.opacity = "0%";
+      document.getElementById("player-third-hand").style.opacity = "0%";
+      document.getElementById("player-fourth-hand").style.opacity = "0%";
       
-      document.getElementById("dealer-first-hand").style.backgroundImage = "none";
-      document.getElementById("dealer-second-hand").style.backgroundImage = "none";
-      document.getElementById("dealer-third-hand").style.backgroundImage = "none";
-      document.getElementById("dealer-fourth-hand").style.backgroundImage = "none";
+      document.getElementById("dealer-first-hand").style.opacity = "0%";
+      document.getElementById("dealer-second-hand").style.opacity = "0%";
+      document.getElementById("dealer-third-hand").style.opacity = "0%";
+      document.getElementById("dealer-fourth-hand").style.opacity = "0%";
 
       document.getElementById("input-field-bet").style.display = "block";
+      let inputBetField = document.getElementById("input-field-bet");
+      inputBetField.value = "";
 
       let playerHand = [];
       let totalHandValue = 0;
